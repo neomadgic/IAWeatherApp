@@ -9,12 +9,16 @@ import UIKit
 
 class ForecastTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var highLabel: UILabel!
     @IBOutlet weak var lowLabel: UILabel!
 
     func setUpCell(forecast: Forecast) {
         conditionLabel.text = forecast.condition ?? ""
+        if let day = forecast.day {
+            dayLabel.text = day
+        }
         
         if let high = forecast.highTemperature, let low = forecast.lowTemperature {
             highLabel.text = "High: \(high)°"

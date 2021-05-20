@@ -51,11 +51,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         
-        NetworkManager.fetchLocationID(zipCode: zipCode) { (location, error) in
+        NetworkManager.fetchLocationID(zipCode: zipCode) { [weak self] (location, error) in
+            guard let self = self else { return }
+            
             if error == nil, let locationKey = location.locationKey {
                 self.location = location
                 
-                NetworkManager.fetchWeather(locationKey: locationKey) { (forecasts, error) in
+                NetworkManager.fetchWeather(locationKey: locationKey) { [weak self] (forecasts, error) in
+                    guard let self = self else { return }
+                    
                     self.forecasts = forecasts
                     
                     DispatchQueue.main.async {
